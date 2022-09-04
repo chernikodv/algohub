@@ -19,13 +19,13 @@ public class ProblemInstanceRemoveHandlerTest extends LambdaTest {
     @Test
     public void testValidProblemInstanceRemove() {
         try {
-            final String id = addProblemInstance();
-
             final GenericRemoveRequest request = new GenericRemoveRequest();
+            final String id = addProblemInstance();
             request.setId(id);
+
             testInput(request);
-        } catch (IOException ioe) {
-            Assert.fail("Invalid get problem instance:" + ioe.getMessage());
+        } catch (IOException e) {
+            Assert.fail("Invalid get problem instance:" + e.getMessage());
         }
     }
 

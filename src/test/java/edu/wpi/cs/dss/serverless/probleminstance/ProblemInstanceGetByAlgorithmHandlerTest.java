@@ -20,8 +20,8 @@ public class ProblemInstanceGetByAlgorithmHandlerTest extends LambdaTest {
 
         try {
             testInput(problemInstanceGetByAlgorithmRequest);
-        } catch (IOException ioe) {
-            Assert.fail("Invalid get problem instance:" + ioe.getMessage());
+        } catch (IOException e) {
+            Assert.fail("Invalid get problem instance: " + e.getMessage());
         }
     }
 
