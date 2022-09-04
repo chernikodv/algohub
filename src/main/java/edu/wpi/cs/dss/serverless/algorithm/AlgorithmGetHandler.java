@@ -1,10 +1,10 @@
-package edu.wpi.cs.dss.serverless.algorithms;
+package edu.wpi.cs.dss.serverless.algorithm;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import edu.wpi.cs.dss.serverless.algorithms.http.AlgorithmGetRequest;
-import edu.wpi.cs.dss.serverless.algorithms.http.AlgorithmGetResponse;
+import edu.wpi.cs.dss.serverless.algorithm.http.AlgorithmGetRequest;
+import edu.wpi.cs.dss.serverless.algorithm.http.AlgorithmGetResponse;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import edu.wpi.cs.dss.serverless.util.DataSource;
 import edu.wpi.cs.dss.serverless.util.ErrorMessage;

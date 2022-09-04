@@ -1,4 +1,4 @@
-package edu.wpi.cs.dss.serverless.algorithms;
+package edu.wpi.cs.dss.serverless.algorithm;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;

@@ -1,9 +1,9 @@
 package edu.wpi.cs.dss.serverless;
 
 
-import edu.wpi.cs.dss.serverless.algorithms.AlgorithmGetHandler;
-import edu.wpi.cs.dss.serverless.algorithms.http.AlgorithmGetRequest;
-import edu.wpi.cs.dss.serverless.algorithms.http.AlgorithmGetResponse;
+import edu.wpi.cs.dss.serverless.algorithm.AlgorithmGetHandler;
+import edu.wpi.cs.dss.serverless.algorithm.http.AlgorithmGetRequest;
+import edu.wpi.cs.dss.serverless.algorithm.http.AlgorithmGetResponse;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import org.junit.Assert;
 import com.google.gson.Gson;

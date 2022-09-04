@@ -1,7 +1,8 @@
-package edu.wpi.cs.dss.serverless.algorithms.http;
+package edu.wpi.cs.dss.serverless.algorithm.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,15 +11,10 @@ import lombok.SneakyThrows;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AlgorithmReclassifyRequest {
+@AllArgsConstructor
+public class AlgorithmGetRequest {
 
-    private String algorithmId;
-    private String newClassificationId;
-
-    public AlgorithmReclassifyRequest(String id, String classification_id) {
-        this.algorithmId = id;
-        this.newClassificationId = classification_id;
-    }
+    private String id;
 
     @Override
     @SneakyThrows

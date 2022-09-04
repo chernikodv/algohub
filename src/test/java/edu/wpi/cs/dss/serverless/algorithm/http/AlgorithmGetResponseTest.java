@@ -1,4 +1,4 @@
-package edu.wpi.cs.dss.serverless.algorithms.http;
+package edu.wpi.cs.dss.serverless.algorithm.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
