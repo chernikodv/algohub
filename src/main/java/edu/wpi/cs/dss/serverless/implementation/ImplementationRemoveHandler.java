@@ -5,9 +5,6 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import edu.wpi.cs.dss.serverless.implementation.http.ImplementationRemoveRequest;
-import edu.wpi.cs.dss.serverless.problemInstances.http.ProblemInstanceAddRequest;
-import edu.wpi.cs.dss.serverless.problemInstances.http.ProblemInstanceAddResponse;
-import edu.wpi.cs.dss.serverless.problemInstances.http.ProblemInstanceRemoveRequest;
 import edu.wpi.cs.dss.serverless.util.DataSource;
 import edu.wpi.cs.dss.serverless.util.ErrorMessage;
 import edu.wpi.cs.dss.serverless.util.HttpStatus;
@@ -15,7 +12,6 @@ import edu.wpi.cs.dss.serverless.util.HttpStatus;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
 
 public class ImplementationRemoveHandler implements RequestHandler<ImplementationRemoveRequest, GenericResponse> {
 
@@ -26,17 +22,15 @@ public class ImplementationRemoveHandler implements RequestHandler<Implementatio
         logger = context.getLogger();
         logger.log("Received an remove implementation request to AWS Lambda:\n" + request);
 
-        // save problem instance to the database
-        final GenericResponse response = deleteImplementationFromDB(request);
+        // remove implementation from the database
+        final GenericResponse response = remove(request);
         logger.log("Sent an remove implementation response from AWS Lambda:\n" + response);
 
         return response;
     }
 
-    private GenericResponse deleteImplementationFromDB(ImplementationRemoveRequest request) {
-
+    private GenericResponse remove(ImplementationRemoveRequest request) {
         final String id = request.getId();
-
         final String query = "DELETE FROM implementation WHERE id = ?";
 
         try (final Connection connection = DataSource.getConnection(logger);
@@ -45,7 +39,6 @@ public class ImplementationRemoveHandler implements RequestHandler<Implementatio
             logger.log("Successfully connected to db!");
 
             preparedStatement.setString(1, id);
-
             final int rowsAffected = preparedStatement.executeUpdate();
             logger.log("Delete from implementation instance table statement has affected " + rowsAffected + " rows!");
 
@@ -55,7 +48,6 @@ public class ImplementationRemoveHandler implements RequestHandler<Implementatio
                     .build();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue());
             return GenericResponse.builder()
                     .statusCode(HttpStatus.BAD_REQUEST.getValue())

@@ -14,10 +14,6 @@ public class GenericRemoveRequest {
 
     private String id;
 
-    public GenericRemoveRequest(String id) {
-        this.id = id;
-    }
-
     @Override
     @SneakyThrows
     public String toString() {

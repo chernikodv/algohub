@@ -79,7 +79,6 @@ public class ImplementationAddHandler implements RequestHandler<ImplementationAd
                     .build();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue());
             deleteFromS3(filename);
             return GenericResponse.builder()
@@ -112,7 +111,6 @@ public class ImplementationAddHandler implements RequestHandler<ImplementationAd
             logger.log("Successfully uploaded an implementation to AWS S3 ...");
         } catch (Exception e) {
             logger.log(ErrorMessage.AWS_S3_UPLOAD_EXCEPTION.getValue());
-            e.printStackTrace();
             return false;
         }
 
@@ -127,7 +125,6 @@ public class ImplementationAddHandler implements RequestHandler<ImplementationAd
             logger.log("Successfully delete an uploaded implementation from AWS S3 ...");
         } catch (Exception e) {
             logger.log(ErrorMessage.AWS_S3_DELETE_EXCEPTION.getValue());
-            e.printStackTrace();
         }
     }
 }
