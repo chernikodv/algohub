@@ -7,22 +7,24 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 
 /**
  * A simple mock implementation of the {@code Context} interface. Default
- * values are stubbed out, and setters are provided so you can customize
+ * values are stubbed out, and setters are provided, so you can customize
  * the context before passing it to your function.
  */
 public class TestContext implements Context {
 
+    private Integer memoryLimitInMB = 128;
+    private Integer remainingTimeInMillis = 15000;
+
     private String awsRequestId = "EXAMPLE";
-    private ClientContext clientContext;
     private String functionName = "EXAMPLE";
-    private CognitoIdentity identity;
     private String logGroupName = "EXAMPLE";
     private String logStreamName = "EXAMPLE";
-    private LambdaLogger logger = new TestLogger();
-    private int memoryLimitInMB = 128;
-    private int remainingTimeInMillis = 15000;
     private String functionVersion = "EXAMPLE";
     private String invokedFunctionArn = "EXAMPLE";
+
+    private CognitoIdentity identity;
+    private ClientContext clientContext;
+    private LambdaLogger logger = System.err::println;
 
     @Override
     public String getAwsRequestId() {
@@ -121,16 +123,5 @@ public class TestContext implements Context {
 
     public void setInvokedFunctionArn(String value) {
         invokedFunctionArn = value;
-    }
-
-    /**
-     * A simple {@code LambdaLogger} that prints everything to stderr.
-     */
-    private static class TestLogger implements LambdaLogger {
-
-        @Override
-        public void log(String message) {
-            System.err.println(message);
-        }
     }
 }

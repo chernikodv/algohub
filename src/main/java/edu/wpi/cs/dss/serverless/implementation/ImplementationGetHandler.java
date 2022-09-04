@@ -68,7 +68,6 @@ public class ImplementationGetHandler implements RequestHandler<ImplementationGe
                     .build();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue());
             return GenericResponse.builder()
                     .statusCode(HttpStatus.BAD_REQUEST.getValue())

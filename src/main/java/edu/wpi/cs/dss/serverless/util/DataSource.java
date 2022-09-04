@@ -33,8 +33,6 @@ public class DataSource {
     }
 
     public static Connection getConnection(LambdaLogger logger) throws SQLException {
-        boolean useTestDB = true;
-
         final long envs = Stream.of(AWS_RDS_URL, AWS_RDS_USERNAME, AWS_RDS_PASSWORD)
                 .filter(Objects::nonNull)
                 .count();
@@ -44,23 +42,10 @@ public class DataSource {
         }
 
         logger.log("Connecting to db ...");
-
-        if (useTestDB){
-            return DriverManager.getConnection(
-                    JDBC_TAG + AWS_RDS_URL + AWS_RDS_PORT + AWS_RDS_TEST + JDBC_CONNECTION_PROPERTY,
-                    AWS_RDS_USERNAME,
-                    AWS_RDS_PASSWORD
-            );
-        }
-
-        else{
-            return DriverManager.getConnection(
+        return DriverManager.getConnection(
                     JDBC_TAG + AWS_RDS_URL + AWS_RDS_PORT + AWS_RDS_NAME + JDBC_CONNECTION_PROPERTY,
                     AWS_RDS_USERNAME,
                     AWS_RDS_PASSWORD
-            );
-        }
-
-
+        );
     }
 }

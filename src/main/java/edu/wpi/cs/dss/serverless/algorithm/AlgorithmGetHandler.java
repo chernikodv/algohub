@@ -70,7 +70,6 @@ public class AlgorithmGetHandler implements RequestHandler<AlgorithmGetRequest, 
                     .build();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue());
             return AlgorithmGetResponse.builder()
                     .statusCode(HttpStatus.BAD_REQUEST.getValue())

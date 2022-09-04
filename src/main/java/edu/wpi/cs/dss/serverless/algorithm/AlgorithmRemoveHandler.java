@@ -47,7 +47,6 @@ public class AlgorithmRemoveHandler implements RequestHandler<GenericRemoveReque
                     .build();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             logger.log(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue());
             return GenericResponse.builder()
                     .statusCode(HttpStatus.BAD_REQUEST.getValue())
