@@ -1,0 +1,2226 @@
+swagger: "2.0"
+info:
+  version: "1.0.2"
+  title: "ams-api"
+
+schemes:
+  - "https"
+basePath: "/beta"
+host: "p0j2bbly07.execute-api.us-east-1.amazonaws.com"
+
+tags:
+  - name: classifications
+    description: Operations related to classifications
+  - name: algorithms
+    description: Operations related to algorithms
+  - name: implementations
+    description: Operations related to implementations
+  - name: problem instances
+    description: Operations related to problem instances
+  - name: benchmarks
+    description: Operations related to benchmarks
+  - name: users
+    description: Operations related to users
+
+paths:
+
+  # ------------------ ALGORITHMS BEGIN ------------------------------
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /algorithms/{id}:
+    get:
+      tags:
+        - algorithms
+      summary: look for an algorithm by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/AlgorithmResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-algorithms-get/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\r\n   \"id\": \"$input.params('id')\"\r\n}"
+        passthroughBehavior: "when_no_templates"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - algorithms
+      summary: look for an algorithm by its id (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /algorithms/create:
+    post:
+      tags:
+        - algorithms
+      summary: create an algorithm
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "CreateAlgorithmRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateAlgorithmRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/CreateAlgorithmResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-algorithms-add/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - algorithms
+      summary: create an algorithm (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /algorithms/reclassify:
+    put:
+      tags:
+        - algorithms
+      summary: reclassify an algorithm
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "ReclassifyAlgorithmRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/ReclassifyAlgorithmRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "PUT"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-algorithms-reclassify/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - algorithms
+      summary: reclassify an algorithm (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /algorithms/remove/{id}:
+    delete:
+      tags:
+        - algorithms
+      summary: remove an algorithm
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-algorithms-remove/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - algorithms
+      summary: remove an algorithm (mocked)
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+    # ------------------ ALGORITHMS END --------------------------------
+
+    # ------------------ BENCHMARKS BEGIN ------------------------------
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /benchmarks/by-implementation/{id}:
+    get:
+      tags:
+        - benchmarks
+      summary: looking for a benchmark by implementation's id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadBenchmarkByImplementationResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-benchmark-getByImplementation/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - benchmarks
+      summary: looking for a benchmark by implementation's id (mocked)
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,GET'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /benchmarks/create:
+    post:
+      tags:
+        - benchmarks
+      summary: create a benchmark
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "CreateBenchmarkRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateBenchmarkRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/CreateBenchmarkResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-benchmark-add/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - benchmarks
+      summary: create a benchmark (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /benchmarks/remove/{id}:
+    delete:
+      tags:
+        - benchmarks
+      summary: remove a benchmark by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-benchmark-remove/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - benchmarks
+      summary: remove a benchmark by its id (mocked)
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+          type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,DELETE'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # ------------------ BENCHMARKS END --------------------------------
+
+  # ------------------ CLASSIFICATIONS BEGIN -------------------------
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /classifications/{id}:
+    get:
+      tags:
+        - classifications
+      summary: looking for a classification by its id
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ClassificationResponse"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-classifications-get/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - classifications
+      summary: look for a classfications by its id (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /classifications/hierarchy:
+    get:
+      tags:
+        - classifications
+      summary: load classifications' hierarchy
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadClassificationHierarchyResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-classifications-hierarchy/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - classifications
+      summary: load classifications' hierarchy (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /classifications/create:
+    post:
+      tags:
+        - classifications
+      summary: create a classification
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "CreateClassificationRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateClassificationRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/CreateClassificationResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-classifications-add/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - classifications
+      summary: create a classification (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /classifications/merge:
+    put:
+      tags:
+        - classifications
+      summary: merge two classifications
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "MergeClassificationRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/MergeClassificationRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/MergeClassificationResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "PUT"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-classifications-merge/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - classifications
+      summary: merge two classifications (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,PUT'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /classifications/remove/{id}:
+    delete:
+      tags:
+        - classifications
+      summary: remove classification by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "path"
+          name: "id"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-classifications-remove/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - classifications
+      summary: remove classification by its id (mocked)
+      parameters:
+        - in: "path"
+          name: "id"
+          required: true
+          type: string
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,DELETE'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # ------------------ CLASSIFICATIONS END ---------------------------
+
+  # ------------------ IMPLEMENTATIONS BEGIN -------------------------
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /implementations/{id}:
+    get:
+      tags:
+        - implementations
+      summary: looking for an implementation by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadImplementationResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-implementation-get/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\r\n   \"id\": \"$input.params('id')\"\r\n}"
+        passthroughBehavior: "when_no_templates"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - implementations
+      summary: looking for an implementation by its id (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /implementations/create:
+    post:
+      tags:
+        - implementations
+      summary: create an implementation
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "CreateImplementationRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateImplementationRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/CreateImplementationResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-implementation-add/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - implementations
+      summary: create an implementation (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /implementations/remove/{id}:
+    delete:
+      tags:
+        - implementations
+      summary: remove an implementation by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-implementation-remove/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - implementations
+      summary: remove an implementation by its id (mocked)
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,DELETE'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # ------------------ IMPLEMENTATIONS END ---------------------------
+
+  # ------------------ PROBLEM INSTANCES BEGIN -----------------------
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /problem-instances/{id}:
+    get:
+      tags:
+        - problem instances
+      summary: look for a problem instance by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadProblemInstanceResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-problemInstance-get/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\r\n   \"id\": \"$input.params('id')\"\r\n}"
+        passthroughBehavior: "when_no_templates"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - problem instances
+      summary: look for a problem instance by its id (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Anonymous Users, Admins]
+  /problem-instances/by-algorithm/{id}:
+    get:
+      tags:
+        - problem instances
+      summary: look for a problem instance by algorithm's id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadProblemInstanceByAlgorithmResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-problemInstance-getByAlgorithm/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - problem instances
+      summary: look for a problem instance by algorithm's id (mocked)
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,GET'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /problem-instances/create:
+    post:
+      tags:
+        - problem instances
+      summary: create a problem instance
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "CreateProblemInstanceRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateProblemInstanceRequest"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/CreateProblemInstanceResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-problemInstance-add/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - problem instances
+      summary: create a problem instance (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Registered Users, Admins]
+  /problem-instances/remove/{id}:
+    delete:
+      tags:
+        - problem instances
+      summary: remove problem instance by its id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-problemInstance-remove/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - problem instances
+      summary: remove problem instance by its id (mocked)
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,DELETE'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # ------------------ PROBLEM INSTANCES END -------------------------
+
+  # ------------------ USERS BEGIN -----------------------------------
+
+  # Clients: [Admins]
+  /users:
+    get:
+      tags:
+        - users
+      summary: load all registered users
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadUsersResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-users-get-all/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - users
+      summary: load all registered users (mocked)
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Admins]
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: load user's activity
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "username"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LoadUserActivityResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-users-activity/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - users
+      summary: load user's activity (mocked)
+      parameters:
+        - name: "username"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,GET'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Admins]
+  /users/data/remove/{username}:
+    delete:
+      tags:
+        - users
+      summary: remove user's data
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "username"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-users-remove-data/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - users
+      summary: remove user's data (mocked)
+      parameters:
+        - name: "username"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,DELETE'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+  # Clients: [Admins]
+  /users/account/remove/{username}:
+    delete:
+      tags:
+        - users
+      summary: remove a user from cognito pool
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "username"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:996643090390:function:algohub-users-remove/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        contentHandling: "CONVERT_TO_TEXT"
+
+    options:
+      tags:
+        - users
+      summary: remove a user from cognito pool (mocked)
+      parameters:
+        - name: "username"
+          in: "path"
+          required: true
+          type: "string"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,DELETE'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+
+# ------------------ USERS END -------------------------------------
+
+# ------------------ DEFINITIONS BEGIN -----------------------------
+
+# ------------------ DEFINITIONS END -------------------------------
+
+
+definitions:
+  Empty: {}
+
+  CreateProblemInstanceResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  LoadUserActivityResponse:
+    type: "object"
+    properties:
+      activity:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            name:
+              type: "string"
+            typeName:
+              type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  CreateAlgorithmResponse:
+    type: "object"
+    properties:
+      algorithmId:
+        type: "string"
+      status:
+        type: "string"
+      error:
+        type: "string"
+
+  CreateBenchmarkRequest:
+    type: "object"
+    properties:
+      implementationId:
+        type: "string"
+      problemInstanceId:
+        type: "string"
+      memory:
+        type: "integer"
+      cpuName:
+        type: "integer"
+      cpuThreads:
+        type: "integer"
+      cpuCores:
+        type: "integer"
+      cpuL1Cache:
+        type: "integer"
+      cpuL2Cache:
+        type: "integer"
+      cpuL3Cache:
+        type: "string"
+      executiontime:
+        type: "integer"
+      executionDate:
+        type: "string"
+      memoryUsage:
+        type: "integer"
+      authorId:
+        type: "string"
+
+  ReclassifyAlgorithmRequest:
+    type: "object"
+    properties:
+      algorithmId:
+        type: "string"
+      newClassificationId:
+        type: "string"
+
+  MergeClassificationResponse:
+    type: "object"
+    properties:
+      newParentClassificationId:
+        type: "string"
+      status:
+        type: "string"
+      error:
+        type: "string"
+
+  CreateAlgorithmRequest:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      authorId:
+        type: "string"
+      description:
+        type: "string"
+      classificationId:
+        type: "string"
+
+  CreateImplementationRequest:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      authorId:
+        type: "string"
+      extension:
+        type: "string"
+      algorithmId:
+        type: "string"
+      algorithmName:
+        type: "string"
+      sourceCodeBase64:
+        type: "string"
+
+  CreateBenchmarkResponse:
+    type: "object"
+    properties:
+      benchmarkId:
+        type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  LoadProblemInstanceByAlgorithmResponse:
+    type: "object"
+    properties:
+      problemInstances:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            datasetFilename:
+              type: "string"
+            datasetSize:
+              type: "string"
+            problemType:
+              type: "string"
+            algorithmId:
+              type: "string"
+            authorId:
+              type: "string"
+      status:
+        type: "integer"
+      error:
+        type: "string"
+
+  CreateProblemInstanceRequest:
+    type: "object"
+    properties:
+      datasetFilename:
+        type: "string"
+      problemType:
+        type: "string"
+      algorithmId:
+        type: "string"
+      authorId:
+        type: "string"
+      sourceCodeBase64:
+        type: "string"
+
+  LoadImplementationResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      filename:
+        type: "string"
+      authorId:
+        type: "string"
+      algorithmId:
+        type: "string"
+      programmingLanguage:
+        type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  CreateClassificationResponse:
+    type: "object"
+    properties:
+      classificationId:
+        type: "string"
+      status:
+        type: "string"
+      error:
+        type: "string"
+
+  CreateImplementationResponse:
+    type: "object"
+    properties:
+      filename:
+        type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  CreateClassificationRequest:
+    required:
+      - "name"
+      - "parentClassificationId"
+    properties:
+      name:
+        type: "string"
+      parentClassificationId:
+        type: "string"
+
+  GenericResponse:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+      statusCode:
+        type: "integer"
+
+  LoadUsersResponse:
+    type: "object"
+    properties:
+      users:
+        type: "array"
+        items:
+          type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  LoadClassificationHierarchyResponse:
+    type: "object"
+    properties:
+      hierarchy:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            name:
+              type: "string"
+            parentId:
+              type: "string"
+            typeName:
+              type: "string"
+      status:
+        type: "integer"
+      error:
+        type: "string"
+  
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorMessage:
+        type: "string"
+      statusCode:
+        type: "integer"
+
+  LoadProblemInstanceResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      datasetFilename:
+        type: "string"
+      datasetSize:
+        type: "string"
+      problemType:
+        type: "string"
+      algorithmId:
+        type: "string"
+      authorId:
+        type: "string"
+      statusCode:
+        type: "integer"
+      error:
+        type: "string"
+
+  MergeClassificationRequest:
+    type: "object"
+    properties:
+      sourceId:
+        type: "string"
+      targetId:
+        type: "string"
+
+  LoadBenchmarkByImplementationResponse:
+    type: "object"
+    properties:
+      benchmarks:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            implementationId:
+              type: "string"
+            problemInstanceId:
+              type: "string"
+            memory:
+              type: "integer"
+            cpuName:
+              type: "integer"
+            cpuThreads:
+              type: "integer"
+            cpuCores:
+              type: "integer"
+            cpuL1Cache:
+              type: "integer"
+            cpuL2Cache:
+              type: "integer"
+            cpuL3Cache:
+              type: "string"
+            executiontime:
+              type: "integer"
+            executionDate:
+              type: "string"
+            memoryUsage:
+              type: "integer"
+            authorId:
+              type: "string"
+      status:
+        type: "integer"
+      error:
+        type: "string"
+
+  AlgorithmInfo:
+    type: "object"
+    required:
+      - "authorId"
+      - "description"
+      - "name"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      implementations:
+        type: "array"
+        items:
+          $ref: "#/definitions/ImplementationInfo"
+      problems:
+        type: "array"
+        items:
+          $ref: "#/definitions/ProblemInstanceInfo"
+      parentClassificationId:
+        type: "string"
+      authorId:
+        type: "string"
+
+  AlgorithmResponse:
+    type: "object"
+    properties:
+      algorithmInfo:
+        $ref: "#/definitions/AlgorithmInfo"
+      status:
+        type: "string"
+      error:
+        type: "string"
+
+  ClassificationResponse:
+    type: "object"
+    properties:
+      classificationInfo:
+        $ref: "#/definitions/ClassificationInfo"
+      status:
+        type: "string"
+      error:
+        type: "string"
+
+  ImplementationInfo:
+    type: "object"
+    required:
+      - "authorId"
+      - "name"
+      - "parentAlgorithmId"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      filename:
+        type: "string"
+      parentAlgorithmId:
+        type: "string"
+      authorId:
+        type: "string"
+
+  ClassificationInfo:
+    type: "object"
+    required:
+      - "name"
+      - "parentClassificationId"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      parentClassificationId:
+        type: "string"
+
+  ProblemInstanceInfo:
+    type: "object"
+    required:
+      - "authorId"
+      - "datasetFilename"
+      - "datasetSize"
+      - "description"
+      - "name"
+      - "problemType"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      datasetSize:
+        type: "string"
+      problemType:
+        type: "string"
+      description:
+        type: "string"
+      datasetFilename:
+        type: "string"
+      authorId:
+        type: "string"
+
+x-amazon-apigateway-gateway-responses:
+  DEFAULT_5XX:
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+  DEFAULT_4XX:
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Methods: "'OPTIONS,POST'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
