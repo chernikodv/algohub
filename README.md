@@ -11,7 +11,7 @@
 It is the ultimate algorithm analysis and sharing platform.
 The main idea of this platform is to keep various well-structured algorithms along with implementations, data sets, and benchmarks in one place.
 The platform allows users to create algorithms, upload/download implementations/data sets, provide metrics for running time analysis, and other stuff.
-It also tracks users' activity for administrators to look through it.
+It also tracks users' activity, which is only available to administrators.
 
 ### Prerequisites
 
