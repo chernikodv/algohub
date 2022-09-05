@@ -51,7 +51,7 @@ It also tracks users' activity for administrators to look through it.
 22) `DELETE /users/data/remove/{username}`: remove data of a user by its username (for administrators only)
 23) `DELETE /users/account/remove/{username}`: remove account of a user by its username (for administrators only)
 
-To see the detailed analysis, open `https://editor.swagger.io/` and paste the content of `/res/api-specification.yaml`.
+To see the detailed information about endpoints, open `https://editor.swagger.io/` and paste the content of `/res/api-specification.yaml`.
 
 ### How to Run
 
