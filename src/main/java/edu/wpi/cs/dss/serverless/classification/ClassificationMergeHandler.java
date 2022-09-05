@@ -3,7 +3,7 @@ package edu.wpi.cs.dss.serverless.classification;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationMergeRequest;
+import edu.wpi.cs.dss.serverless.classification.http.MergeClassificationRequest;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import edu.wpi.cs.dss.serverless.util.DataSource;
 import edu.wpi.cs.dss.serverless.util.ErrorMessage;
@@ -13,12 +13,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ClassificationMergeHandler implements RequestHandler<ClassificationMergeRequest, GenericResponse> {
+public class ClassificationMergeHandler implements RequestHandler<MergeClassificationRequest, GenericResponse> {
 
     private LambdaLogger logger;
 
     @Override
-    public GenericResponse handleRequest(ClassificationMergeRequest request, Context context) {
+    public GenericResponse handleRequest(MergeClassificationRequest request, Context context) {
         logger = context.getLogger();
         logger.log("Received a merge classification request from AWS Lambda:\n" + request);
 
@@ -28,7 +28,7 @@ public class ClassificationMergeHandler implements RequestHandler<Classification
         return response;
     }
 
-    private GenericResponse merge(ClassificationMergeRequest request) {
+    private GenericResponse merge(MergeClassificationRequest request) {
         final String sourceId = request.getSourceId();
         final String targetId = request.getTargetId();
 

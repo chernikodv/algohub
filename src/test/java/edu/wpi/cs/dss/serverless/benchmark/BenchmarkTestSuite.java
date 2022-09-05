@@ -5,9 +5,9 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        BenchmarkRemoveHandlerTest.class,
-        BenchmarkAddHandlerTest.class,
-        BenchmarkGetByImplementationHandlerTest.class
+        RemoveBenchmarkHandlerTest.class,
+        CreateBenchmarkHandlerTest.class,
+        LoadBenchmarkByImplementationHandlerTest.class
 })
 public class BenchmarkTestSuite {
 }

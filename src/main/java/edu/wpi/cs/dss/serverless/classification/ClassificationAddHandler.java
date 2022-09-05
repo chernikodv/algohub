@@ -3,8 +3,8 @@ package edu.wpi.cs.dss.serverless.classification;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationAddRequest;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationAddResponse;
+import edu.wpi.cs.dss.serverless.classification.http.CreateClassificationRequest;
+import edu.wpi.cs.dss.serverless.classification.http.CreateClassificationResponse;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import edu.wpi.cs.dss.serverless.util.DataSource;
 import edu.wpi.cs.dss.serverless.util.ErrorMessage;
@@ -15,12 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class ClassificationAddHandler implements RequestHandler<ClassificationAddRequest, GenericResponse> {
+public class ClassificationAddHandler implements RequestHandler<CreateClassificationRequest, GenericResponse> {
 
     private LambdaLogger logger;
 
     @Override
-    public GenericResponse handleRequest(ClassificationAddRequest request, Context context) {
+    public GenericResponse handleRequest(CreateClassificationRequest request, Context context) {
         logger = context.getLogger();
         logger.log("Received an add classification request from AWS Lambda:\n" + request);
 
@@ -31,7 +31,7 @@ public class ClassificationAddHandler implements RequestHandler<ClassificationAd
         return response;
     }
 
-    private GenericResponse save(ClassificationAddRequest request) {
+    private GenericResponse save(CreateClassificationRequest request) {
         final String name = request.getName();
         final String parentId = request.getParentId();
         final String authorId = request.getAuthorId();
@@ -53,7 +53,7 @@ public class ClassificationAddHandler implements RequestHandler<ClassificationAd
             final int rowsAffected = preparedStatement.executeUpdate();
             logger.log("Insert classification statement has affected " + rowsAffected + " rows!");
 
-            return ClassificationAddResponse.builder()
+            return CreateClassificationResponse.builder()
                     .statusCode(HttpStatus.SUCCESS.getValue())
                     .id(id)
                     .name(name)

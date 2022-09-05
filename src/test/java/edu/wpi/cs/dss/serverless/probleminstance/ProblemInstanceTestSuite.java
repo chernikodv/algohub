@@ -5,9 +5,9 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ProblemInstanceGetHandlerTest.class,
-        ProblemInstanceGetByAlgorithmHandlerTest.class,
-        ProblemInstanceRemoveHandlerTest.class
+        LoadProblemInstanceHandlerTest.class,
+        LoadProblemInstanceByAlgorithmHandlerTest.class,
+        RemoveProblemInstanceHandlerTest.class
 })
 public class ProblemInstanceTestSuite {
 

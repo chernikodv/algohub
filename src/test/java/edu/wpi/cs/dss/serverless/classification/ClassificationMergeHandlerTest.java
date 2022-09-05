@@ -1,9 +1,9 @@
 package edu.wpi.cs.dss.serverless.classification;
 
 import edu.wpi.cs.dss.serverless.LambdaTest;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationAddRequest;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationAddResponse;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationMergeRequest;
+import edu.wpi.cs.dss.serverless.classification.http.CreateClassificationRequest;
+import edu.wpi.cs.dss.serverless.classification.http.CreateClassificationResponse;
+import edu.wpi.cs.dss.serverless.classification.http.MergeClassificationRequest;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class ClassificationMergeHandlerTest extends LambdaTest {
         final String classificationId = createClassification(null);
         final String anotherClassificationId = createClassification(null);
 
-        final ClassificationMergeRequest mergeRequest = new ClassificationMergeRequest();
+        final MergeClassificationRequest mergeRequest = new MergeClassificationRequest();
         mergeRequest.setSourceId(classificationId);
         mergeRequest.setSourceId(anotherClassificationId);
 
@@ -35,7 +35,7 @@ public class ClassificationMergeHandlerTest extends LambdaTest {
         final String parentClassificationId = createClassification(null);
         final String childClassificationId = createClassification(parentClassificationId);
 
-        final ClassificationMergeRequest mergeRequest = new ClassificationMergeRequest();
+        final MergeClassificationRequest mergeRequest = new MergeClassificationRequest();
         mergeRequest.setSourceId(parentClassificationId);
         mergeRequest.setTargetId(childClassificationId);
 
@@ -46,7 +46,7 @@ public class ClassificationMergeHandlerTest extends LambdaTest {
         }
     }
 
-    private void testInput(ClassificationMergeRequest validRequest) throws IOException {
+    private void testInput(MergeClassificationRequest validRequest) throws IOException {
         final ClassificationMergeHandler handler = new ClassificationMergeHandler();
         final GenericResponse response = handler.handleRequest(
                 validRequest, createContext("merge hierarchy")
@@ -55,7 +55,7 @@ public class ClassificationMergeHandlerTest extends LambdaTest {
         assertEquals(Integer.valueOf(200), response.getStatusCode());
     }
 
-    private void testFailInput(ClassificationMergeRequest invalidRequest) throws IOException {
+    private void testFailInput(MergeClassificationRequest invalidRequest) throws IOException {
         final ClassificationMergeHandler handler = new ClassificationMergeHandler();
         final GenericResponse response = handler.handleRequest(
                 invalidRequest, createContext("merge hierarchy")
@@ -65,13 +65,13 @@ public class ClassificationMergeHandlerTest extends LambdaTest {
     }
 
     private String createClassification(String parent) {
-        final ClassificationAddRequest addRequest = new ClassificationAddRequest();
+        final CreateClassificationRequest addRequest = new CreateClassificationRequest();
         addRequest.setAuthorId("junit-test-authorId");
         addRequest.setName("valid-classification-name");
         addRequest.setParentId(parent);
 
         final ClassificationAddHandler addHandler = new ClassificationAddHandler();
-        final ClassificationAddResponse addResponse = (ClassificationAddResponse) addHandler.handleRequest(
+        final CreateClassificationResponse addResponse = (CreateClassificationResponse) addHandler.handleRequest(
                 addRequest, createContext("add")
         );
 

@@ -3,8 +3,8 @@ package edu.wpi.cs.dss.serverless.classification;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationHierarchyRequest;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationHierarchyResponse;
+import edu.wpi.cs.dss.serverless.classification.http.LoadClassificationHierarchyRequest;
+import edu.wpi.cs.dss.serverless.classification.http.LoadClassificationHierarchyResponse;
 import edu.wpi.cs.dss.serverless.classification.model.HierarchyEntry;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import edu.wpi.cs.dss.serverless.util.DataSource;
@@ -18,12 +18,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassificationHierarchyHandler implements RequestHandler<ClassificationHierarchyRequest, GenericResponse> {
+public class ClassificationHierarchyHandler implements RequestHandler<LoadClassificationHierarchyRequest, GenericResponse> {
 
     private LambdaLogger logger;
 
     @Override
-    public GenericResponse handleRequest(ClassificationHierarchyRequest request, Context context) {
+    public GenericResponse handleRequest(LoadClassificationHierarchyRequest request, Context context) {
         logger = context.getLogger();
         logger.log("Received a get classification request from AWS Lambda:\n" + request);
 
@@ -60,7 +60,7 @@ public class ClassificationHierarchyHandler implements RequestHandler<Classifica
                     entries.add(hierarchy);
                 }
 
-                return ClassificationHierarchyResponse.builder()
+                return LoadClassificationHierarchyResponse.builder()
                         .statusCode(HttpStatus.SUCCESS.getValue())
                         .hierarchy(entries)
                         .build();
