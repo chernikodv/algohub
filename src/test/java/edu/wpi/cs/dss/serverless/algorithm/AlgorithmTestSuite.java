@@ -5,10 +5,10 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        AlgorithmAddHandlerTest.class,
+        CreateAlgorithmHandlerTest.class,
         AlgorithmGetHandlerTest.class,
-        AlgorithmReclassifyHandlerTest.class,
-        AlgorithmRemoveHandlerTest.class
+        ReclassifyAlgorithmHandlerTest.class,
+        RemoveAlgorithmHandlerTest.class
 })
 public class AlgorithmTestSuite {
 }

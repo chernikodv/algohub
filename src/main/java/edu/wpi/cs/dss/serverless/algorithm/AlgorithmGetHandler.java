@@ -3,8 +3,8 @@ package edu.wpi.cs.dss.serverless.algorithm;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import edu.wpi.cs.dss.serverless.algorithm.http.AlgorithmGetRequest;
-import edu.wpi.cs.dss.serverless.algorithm.http.AlgorithmGetResponse;
+import edu.wpi.cs.dss.serverless.algorithm.http.LoadAlgorithmRequest;
+import edu.wpi.cs.dss.serverless.algorithm.http.LoadAlgorithmResponse;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import edu.wpi.cs.dss.serverless.util.DataSource;
 import edu.wpi.cs.dss.serverless.util.ErrorMessage;
@@ -15,12 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AlgorithmGetHandler implements RequestHandler<AlgorithmGetRequest, GenericResponse> {
+public class AlgorithmGetHandler implements RequestHandler<LoadAlgorithmRequest, GenericResponse> {
 
     private LambdaLogger logger;
 
     @Override
-    public GenericResponse handleRequest(AlgorithmGetRequest request, Context context) {
+    public GenericResponse handleRequest(LoadAlgorithmRequest request, Context context) {
         logger = context.getLogger();
         logger.log("Received a get algorithm request from AWS Lambda: \n" + request);
 
@@ -31,7 +31,7 @@ public class AlgorithmGetHandler implements RequestHandler<AlgorithmGetRequest, 
         return response;
     }
 
-    private GenericResponse findById(AlgorithmGetRequest request) {
+    private GenericResponse findById(LoadAlgorithmRequest request) {
         // extracting algorithm id from get algorithm request
         final String id = request.getId();
 
@@ -53,7 +53,7 @@ public class AlgorithmGetHandler implements RequestHandler<AlgorithmGetRequest, 
                     final String classificationId = resultSet.getString(4);
                     final String authorId = resultSet.getString(5);
 
-                    return AlgorithmGetResponse.builder()
+                    return LoadAlgorithmResponse.builder()
                             .statusCode(HttpStatus.SUCCESS.getValue())
                             .classificationId(classificationId)
                             .authorId(authorId)
@@ -71,7 +71,7 @@ public class AlgorithmGetHandler implements RequestHandler<AlgorithmGetRequest, 
 
         } catch (SQLException e) {
             logger.log(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue());
-            return AlgorithmGetResponse.builder()
+            return LoadAlgorithmResponse.builder()
                     .statusCode(HttpStatus.BAD_REQUEST.getValue())
                     .error(ErrorMessage.SQL_EXECUTION_EXCEPTION.getValue())
                     .build();

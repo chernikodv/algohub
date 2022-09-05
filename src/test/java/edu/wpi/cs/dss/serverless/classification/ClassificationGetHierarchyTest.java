@@ -1,7 +1,7 @@
 package edu.wpi.cs.dss.serverless.classification;
 
 import edu.wpi.cs.dss.serverless.LambdaTest;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationHierarchyRequest;
+import edu.wpi.cs.dss.serverless.classification.http.LoadClassificationHierarchyRequest;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class ClassificationGetHierarchyTest extends LambdaTest {
 
     @Test
     public void testValidClassificationGetHierarchy() {
-        final ClassificationHierarchyRequest request = new ClassificationHierarchyRequest();
+        final LoadClassificationHierarchyRequest request = new LoadClassificationHierarchyRequest();
 
         try {
             testInput(request);
@@ -23,7 +23,7 @@ public class ClassificationGetHierarchyTest extends LambdaTest {
         }
     }
 
-    private void testInput(ClassificationHierarchyRequest request) throws IOException {
+    private void testInput(LoadClassificationHierarchyRequest request) throws IOException {
         final ClassificationHierarchyHandler handler = new ClassificationHierarchyHandler();
         final GenericResponse response = handler.handleRequest(
                 request, createContext("get hierarchy")

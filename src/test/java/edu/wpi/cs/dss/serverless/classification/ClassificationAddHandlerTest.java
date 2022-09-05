@@ -1,7 +1,7 @@
 package edu.wpi.cs.dss.serverless.classification;
 
 import edu.wpi.cs.dss.serverless.LambdaTest;
-import edu.wpi.cs.dss.serverless.classification.http.ClassificationAddRequest;
+import edu.wpi.cs.dss.serverless.classification.http.CreateClassificationRequest;
 import edu.wpi.cs.dss.serverless.generic.GenericResponse;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class ClassificationAddHandlerTest extends LambdaTest {
 
     @Test
     public void testValidClassificationAdd() {
-        final ClassificationAddRequest validRequest = new ClassificationAddRequest();
+        final CreateClassificationRequest validRequest = new CreateClassificationRequest();
         validRequest.setAuthorId("junit-test-authorId");
         validRequest.setName("valid-classification-name");
         validRequest.setParentId(null);
@@ -28,7 +28,7 @@ public class ClassificationAddHandlerTest extends LambdaTest {
 
     @Test
     public void testInvalidClassificationAdd() {
-        final ClassificationAddRequest invalidRequest = new ClassificationAddRequest();
+        final CreateClassificationRequest invalidRequest = new CreateClassificationRequest();
         invalidRequest.setAuthorId("junit-test-authorId");
         invalidRequest.setName("valid-classification-name");
         invalidRequest.setParentId("non-existent-parent");
@@ -40,7 +40,7 @@ public class ClassificationAddHandlerTest extends LambdaTest {
         }
     }
 
-    private void testInput(ClassificationAddRequest validRequest) throws IOException {
+    private void testInput(CreateClassificationRequest validRequest) throws IOException {
         final ClassificationAddHandler handler = new ClassificationAddHandler();
         final GenericResponse response = handler.handleRequest(
                 validRequest, createContext("add classification")
@@ -49,7 +49,7 @@ public class ClassificationAddHandlerTest extends LambdaTest {
         assertEquals(Integer.valueOf(200), response.getStatusCode());
     }
 
-    void testFailInput(ClassificationAddRequest invalidRequest) throws IOException {
+    void testFailInput(CreateClassificationRequest invalidRequest) throws IOException {
         final ClassificationAddHandler handler = new ClassificationAddHandler();
         final GenericResponse response = handler.handleRequest(
                 invalidRequest, createContext("add")
